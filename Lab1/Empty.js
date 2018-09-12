@@ -12,7 +12,7 @@ function main()
     for (i = 0; i < 200; i++){
         ctx.fillStyle = rgb(Math.random() * 255,Math.random() * 255,Math.random() * 255);
         ctx.fillRect(Math.random() *1000,Math.random()*1000,80,80);
-        ctx.stroke(5);
+        ctx.stroke();
     }
 
 
