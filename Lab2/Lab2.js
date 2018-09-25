@@ -23,6 +23,27 @@ function getAverage(marks)
 	return Math.floor(result / marks.length);
 }
 
+function cannonsReady (gunners) {
+  var fire = 0;
+  var result = 'Shiver me timbers!'
+  for (var gunnerName in gunners)
+  {
+    if (gunners.hasOwnProperty(gunnerName))
+    {
+      var ready = gunners[gunnerName];
+      if (ready === 'aye' || ready === 'Aye')
+      {
+        fire++;
+      }
+    }
+  }
+  if (fire === 4)
+  {
+    result = 'Fire!'
+  }
+  return result;
+}
+
 function main()
 {
 	if(square(5)==25)
@@ -59,6 +80,24 @@ function main()
 	else
 	{
 		console.log("FAIL 3.2");
+	}
+	if (cannonsReady({'Mike':'aye','Joe':'aye','Johnson':'aye','Peter':'aye'}) === 'Fire!')
+	{
+		console.log("OK 4.1");
+
+	}
+	else
+	{
+		console.log("FAIL 4.1");
+	}
+	if (cannonsReady({'Mike':'aye','Joe':'nay','Johnson':'aye','Peter':'aye'}) === 'Shiver me timbers!')
+	{
+		console.log("OK 4.2");
+
+	}
+	else
+	{
+		console.log("FAIL 4.");
 	}
 
 }
