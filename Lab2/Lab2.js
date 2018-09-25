@@ -63,8 +63,21 @@ function aliasGen(realFirstName, realSurname)
 		}
 }
 
+function Ship(draft, crew)
+{
+	this.draft = draft;
+	this.crew = crew;
+}
+
 function main()
 {
+	Ship.prototype.isWorthIt = function()
+	{
+		return this.draft - (this.crew * 1.5) > 20;
+	}
+	var emptyShip = new Ship(0,0);
+	var lootyShip = new Ship(42,5);
+	
 	if(square(5)==25)
 	{
 		console.log("OK 1");
@@ -147,5 +160,22 @@ function main()
 	else
 	{
 		console.log("FAIL 5.3");
+	}
+
+	if (emptyShip.isWorthIt() === false)
+	{
+		console.log("OK 6.1");
+	}
+	else
+	{
+		console.log("FAIL 6.1");
+	}
+	if (lootyShip.isWorthIt() === true)
+	{
+		console.log("OK 6.2");
+	}
+	else
+	{
+		console.log("FAIL 6.2");
 	}
 }
