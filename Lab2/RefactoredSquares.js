@@ -5,11 +5,6 @@
 function main()
 {
     initCanvas();
-    var i;
-    for (i = 0; i < 200; i++)
-    {
-        Square(Math.random() * 1000, Math.random() * 1000, 80, 80, rgb(Math.random() * 255,Math.random() * 255,Math.random() * 255));
-    }
 
 /**
  * Initialises the canvas - the drawing surface. The canvas
@@ -30,7 +25,15 @@ function initCanvas()
 	// We want this to be a 2D canvas.
 	var ctx = canvas.getContext("2d");
 	// Adds the canvas element to the document.
-	document.body.appendChild(canvas);
+    document.body.appendChild(canvas);
+    
+    var sq =[];
+    for (var i = 0; i < 200; i++)
+    {
+        sq.push(new Square(Math.random() * 1000, Math.random() * 1000, 80, 80, rgb(Math.random() * 255,Math.random() * 255,Math.random() * 255)));    
+        sq[i].draw(ctx);    
+    }
+
 }
 
     /**

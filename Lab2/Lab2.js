@@ -69,12 +69,14 @@ function Ship(draft, crew)
 	this.crew = crew;
 }
 
+Ship.prototype.isWorthIt = function()
+{
+	return this.draft - (this.crew * 1.5) > 20;
+}
+
 function main()
 {
-	Ship.prototype.isWorthIt = function()
-	{
-		return this.draft - (this.crew * 1.5) > 20;
-	}
+
 	var emptyShip = new Ship(0,0);
 	var lootyShip = new Ship(42,5);
 	
