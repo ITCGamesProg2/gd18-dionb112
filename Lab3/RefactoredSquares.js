@@ -1,13 +1,11 @@
 /**
- * main is the entry point for Javascript programs.
+ * @author Dion Buckley
+ * @description Moving square on canvas with arrow keys
  *
  */
-//Author 
- //Savage work!!!
 function main()
 {
-    //const
-    MOVEMENT = 42;
+    const MOVEMENT = 42;
     initCanvas();
     window.addEventListener("keydown", function(e) {
         // Space and arrow keys
