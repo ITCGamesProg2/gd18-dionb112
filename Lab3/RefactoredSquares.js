@@ -2,8 +2,11 @@
  * main is the entry point for Javascript programs.
  *
  */
+//Author 
+ //Savage work!!!
 function main()
 {
+    //const
     MOVEMENT = 42;
     initCanvas();
     window.addEventListener("keydown", function(e) {
