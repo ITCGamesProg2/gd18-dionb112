@@ -5,7 +5,7 @@
  */
 function main()
 {
-    const MOVEMENT = 42;
+    MOVEMENT = 42;
     initCanvas();
     window.addEventListener("keydown", function(e) {
         // Space and arrow keys
