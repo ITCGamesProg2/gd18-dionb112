@@ -1,6 +1,6 @@
 function main()
 {
-    var game = new Game();
+    var game = new Game('SceneManager');
     game.init();
     
     // Use the document object to create a new element canvas.
@@ -14,15 +14,31 @@ function main()
     ctx = canvas.getContext("2d");
     // Adds the canvas element to the document.
     document.body.appendChild(canvas);
+    ctx.font = '48px arial';
 
-
+    game.render();
 }
 
 class Game
 {
-    constructor() {}
+    constructor(title) 
+    {
+        this.title = title;
+    }
     init()
     {
         window.alert('Initializing Game. . .');
+    }
+    start()
+    {
+
+    }
+    stop()
+    {
+
+    }
+    render()
+    {
+        ctx.fillText(this.title, 7, 42);
     }
 }
