@@ -1,44 +1,25 @@
-function main()
-{
-    var game = new Game('SceneManager');
-    game.init();
-    
-    // Use the document object to create a new element canvas.
-    canvas = document.createElement("canvas");
-    // Assign the canvas an id so we can reference it elsewhere.
-    canvas.id = 'mycanvas';
-    canvas.width = 1000;
-    canvas.height = 1000;
-    canvas.style="border:2px solid"
-    // We want this to be a 2D canvas.
-    ctx = canvas.getContext("2d");
-    // Adds the canvas element to the document.
-    document.body.appendChild(canvas);
-    ctx.font = '48px arial';
-
-    game.render();
-}
-
 class Game
 {
-    constructor(title) 
-    {
-        this.title = title;
+    constructor() 
+    {        
+        this.ctx = {};
+        this.initCanvas();
+        var titleScene = new TitleScene('T I T L E');
+        titleScene.render(this.ctx);
+        // SceneManager is created here
+        // this.sceneManager = new SceneManager();
+        // sceneManager.render(ctx);
     }
-    init()
+    initCanvas()
     {
-        window.alert('Initializing Game. . .');
+        var canvas = document.createElement("canvas");
+        canvas.id = 'mycanvas';
+        canvas.width = 1000;
+        canvas.height = 1000;
+        canvas.style="border:2px solid"
+        this.ctx = canvas.getContext("2d");
+        document.body.appendChild(canvas);
+        this.ctx.font = '48px arial';
     }
-    start()
-    {
 
-    }
-    stop()
-    {
-
-    }
-    render()
-    {
-        ctx.fillText(this.title, 7, 42);
-    }
 }
