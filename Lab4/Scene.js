@@ -1,9 +1,8 @@
-class TitleScene
+class Scene
 {
     constructor(title) 
     {
         this.title = title;
-        this.start();
     }
     start()
     {

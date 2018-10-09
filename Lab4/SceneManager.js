@@ -1,25 +1,32 @@
 class SceneManager
 {
-    constructor(currentScene = null)
+    constructor()
     {
-        this.currentScene = currentScene;
+        this.currentScene = null;
         this.scenes = {};
         this.sceneTitles = [];
         this.index = -1;
     }
     addScene(scene)
     {
-        scenes['Scene ' + index] = scene;
-        sceneTitles[index] = scene;
+        this.scenes[scene.title] = scene;
+        this.sceneTitles.push(scene.title);
     }
     goToScene(title)
     {
-        //do more
+        if ( this.currentScene != null)
+        {
+            this.currentScene.stop();
+        }
+
+        // do more
         this.currentScene = title;
+       // this.currentScene.start();
+
     }
     goToNextScene()
     {
-        if (index < this.sceneTitles.length)
+        if (index <  this.sceneTitles.length)
         {
             index++
         }
@@ -27,5 +34,7 @@ class SceneManager
         {
             index = 0;
         }
+        // again do more
+        this.currentScene =  this.sceneTitles[index]
     }
 }

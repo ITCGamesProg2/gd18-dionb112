@@ -4,11 +4,12 @@ class Game
     {        
         this.ctx = {};
         this.initCanvas();
-        var titleScene = new TitleScene('T I T L E');
-        titleScene.render(this.ctx);
-        // SceneManager is created here
-        // this.sceneManager = new SceneManager();
-        // sceneManager.render(ctx);
+        this.scene = new Scene('T I T L E');
+        this.scene.render(this.ctx);
+
+        this.sceneManager = new SceneManager();
+        this.sceneManager.addScene(this.scene);
+        this.sceneManager.goToScene(this.scene.title)
     }
     initCanvas()
     {
@@ -21,5 +22,4 @@ class Game
         document.body.appendChild(canvas);
         this.ctx.font = '48px arial';
     }
-
 }
