@@ -5,18 +5,16 @@ class Game
     {        
         this.ctx = {};
         this.initCanvas();
-        this.scene = new Scene('S C E N E ', 'GREEN');
         this.sceneManager = new SceneManager();
-        this.titleScene = new TitleScene('T I T L E  S C E N E ', 'RED');
-        this.menuScene = new MenuScene('M E N U  S C E N E', 'BLUE');
-
-        this.sceneManager.addScene(this.scene);
-        this.sceneManager.addScene(this.titleScene);
+        this.titleScene = new PlayScene('P L A Y  G A M E', 'RED');
+        this.menuScene = new MenuScene('M A I N  M E N U ', 'BLUE');
+        this.gameOverScene = new GameOverScene('G A M E  O V E R', 'GREEN');
         this.sceneManager.addScene(this.menuScene);
+        this.sceneManager.addScene(this.titleScene);
+        this.sceneManager.addScene(this.gameOverScene);
 
-        this.sceneManager.goToScene(this.scene.title);
+        this.sceneManager.goToScene(this.menuScene.title);
         this.sceneManager.render(this.ctx);
-
     }
     initCanvas()
     {

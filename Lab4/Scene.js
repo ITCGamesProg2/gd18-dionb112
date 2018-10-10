@@ -25,7 +25,7 @@ class Scene
     }
 }
 
-class TitleScene extends Scene
+class PlayScene extends Scene
 {
     constructor(title, colour)
     {
@@ -50,3 +50,17 @@ class MenuScene extends Scene
         super.render(ctx)
     }
 }
+
+class GameOverScene extends Scene
+{
+    constructor(title, colour)
+    {
+        super(title, colour);
+    }
+    render(ctx)
+    {
+        ctx.font = '55px courier';
+        super.render(ctx)
+    }
+}
+
