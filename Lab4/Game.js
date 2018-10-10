@@ -5,7 +5,7 @@ class Game
     {        
         this.ctx = {};
         this.initCanvas();
-        this.scene = new Scene('S C E N E ');
+        this.scene = new Scene('S C E N E ', 'GREEN');
         this.sceneManager = new SceneManager();
         this.titleScene = new TitleScene('T I T L E  S C E N E ', 'RED');
         this.menuScene = new MenuScene('M E N U  S C E N E', 'BLUE');
@@ -15,11 +15,6 @@ class Game
         this.sceneManager.addScene(this.menuScene);
 
         this.sceneManager.goToScene(this.scene.title);
-        this.sceneManager.goToNextScene();
-        //this.sceneManager.goToNextScene();
-        //this.sceneManager.goToNextScene();
-
-
         this.sceneManager.render(this.ctx);
 
     }
@@ -34,4 +29,5 @@ class Game
         document.body.appendChild(canvas);
         this.ctx.font = '48px arial';
     }
+
 }

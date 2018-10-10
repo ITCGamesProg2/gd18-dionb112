@@ -32,14 +32,12 @@ class SceneManager
     }
     goToNextScene()
     {
-        if (this.index <  this.sceneTitles.length)
-        {
-            this.index++
-        }
-        else
-        {
-            this.index = 0;
-        }
+
+        this.index = this.sceneTitles.indexOf(this.currentScene.title);
+        // here we set add 1 to the index as far as it remains 
+        // at least 1 shorter than the the length (number 1 - index 0)
+        // otherwise it wraps around to 0
+        this.index = (this.index + 1) % this.sceneTitles.length;
         // Not sure if this function will ever be called when curr = null 
         // but this statement will alow that that case
         if ( this.currentScene != null)
@@ -48,6 +46,7 @@ class SceneManager
         }
         // this time current scene is set using index (just updated)
         // for the titles list.
+
         this.currentScene =  this.scenes[this.sceneTitles[this.index]]
         // again check that it actually exists.
         if (undefined !== this.currentScene)
