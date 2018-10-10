@@ -8,7 +8,7 @@ class Game
         this.scene.render(this.ctx);
 
         this.sceneManager = new SceneManager();
-        this.sceneManager.addScene(this.scene);
+       // this.sceneManager.addScene(this.scene);
         this.sceneManager.goToScene(this.scene.title)
     }
     initCanvas()

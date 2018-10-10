@@ -18,10 +18,16 @@ class SceneManager
         {
             this.currentScene.stop();
         }
-
-        // do more
-        this.currentScene = title;
-       // this.currentScene.start();
+        
+        // lookup the dict using the title as key, 
+        // set the value (reference to scene as current)
+        this.currentScene = this.scenes[title];
+        // Also do a check to ensure the looked up key actually exists
+        // before trying to call a function on an undefined scene
+        if (undefined !== this.currentScene)
+        {
+            this.currentScene.start();
+        }
 
     }
     goToNextScene()
@@ -34,7 +40,17 @@ class SceneManager
         {
             index = 0;
         }
-        // again do more
+        if ( this.currentScene != null)
+        {
+            this.currentScene.stop();
+        }
+        // this time current scene is set using index (just updated)
+        // for the titles list.
         this.currentScene =  this.sceneTitles[index]
+        // again check that it actually exists.
+        if (undefined !== this.currentScene)
+        {
+            this.currentScene.start();
+        }
     }
 }
