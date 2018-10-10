@@ -55,4 +55,8 @@ class SceneManager
             this.currentScene.start();
         }
     }
+    render(ctx)
+    {
+        this.currentScene.render(ctx);
+    }
 }
