@@ -8,12 +8,17 @@ class Game
         this.scene = new Scene('S C E N E ');
         this.sceneManager = new SceneManager();
         this.titleScene = new TitleScene('T I T L E  S C E N E ', 'RED');
+        this.menuScene = new MenuScene('M E N U  S C E N E', 'BLUE');
 
         this.sceneManager.addScene(this.scene);
-        this.sceneManager.goToScene(this.scene.title);
         this.sceneManager.addScene(this.titleScene);
+        this.sceneManager.addScene(this.menuScene);
+
+        this.sceneManager.goToScene(this.scene.title);
         this.sceneManager.goToNextScene();
-        this.sceneManager.goToNextScene();
+        //this.sceneManager.goToNextScene();
+        //this.sceneManager.goToNextScene();
+
 
         this.sceneManager.render(this.ctx);
 
