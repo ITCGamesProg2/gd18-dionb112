@@ -1,4 +1,10 @@
+// Global var (no const in js)
 CANVAS_SIZE = 1000;
+/**
+ * Game class which controls instance of SceneManager,
+ * adding in all scene objects and rendering first scene
+ * Also setting up the canvas initially
+ */
 class Game
 {
     constructor() 
@@ -16,6 +22,10 @@ class Game
         this.sceneManager.goToScene(this.menuScene.title);
         this.sceneManager.render(this.ctx);
     }
+    /**
+     * See canvas as local var here but ctx as object of this class
+     * to use elsewhere
+     */
     initCanvas()
     {
         var canvas = document.createElement("canvas");
@@ -24,6 +34,7 @@ class Game
         canvas.height = CANVAS_SIZE;
         canvas.style="border:2px solid"
         this.ctx = canvas.getContext("2d");
+        // append to HTML document
         document.body.appendChild(canvas);
         this.ctx.font = '48px arial';
     }

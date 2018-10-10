@@ -1,11 +1,21 @@
+/**
+ * Base class setup for inheritance of different game scenes.
+ * Child classes extend base class and use super() to invoke base code
+ */
 class Scene
 {
+    /**
+     * Constructor for base class
+     * @param {String} title Scene title to be drawn on canvas
+     * @param {String} colour Scene Colour to style canvas
+     */
     constructor(title, colour) 
     {
         this.title = title;
         this.colour = colour;
 
     }
+    // Two functions simple to print to console for debug
     start()
     {
         console.log(this.title + "  starting");
@@ -14,10 +24,14 @@ class Scene
     {
         console.log(this.title + "  stopping");
     }
+    /**
+     * Render function which will clear the canvas, Colours it based on child colour
+     * and prints the text in black (each child will set font styles before invoking super())
+     * @param {Object} ctx reference to the context of the canvas, used to draw on canvas
+     */
     render(ctx)
     {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);  
-        ctx.fillText(this.title, 7, 42);
         ctx.fillStyle = this.colour;
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         ctx.fillStyle = 'BLACK';
