@@ -1,3 +1,6 @@
+// Reviewer: David Scott - Lot's of comments anyway, one thing I noticed would be
+// to split up all of the inherited classes into their own .js files.
+
 /**
  * Base class setup for inheritance of different game scenes.
  * Child classes extend base class and use super() to invoke base code
