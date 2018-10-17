@@ -32,15 +32,6 @@ class Game
         // append to HTML document
         document.body.appendChild(canvas);
         this.ctx.font = '42px arial';
-        // this prevents scrolling (default behaviour of some keys)
-        window.addEventListener("keydown", function(e)
-        {
-            // Space and arrow keys
-            if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) 
-            {
-                e.preventDefault();
-            }
-        }, false); 
         document.addEventListener("keydown", this.keyDownHandler.bind(null, this.player));
  
     }
@@ -56,7 +47,7 @@ class Game
         console.log('game drawing...');
         this.player.draw(this.ctx);
     }
-    keyDownHandler(e, player)
+    keyDownHandler(player, e)
     {
         switch (e.keyCode)
         {
@@ -72,6 +63,11 @@ class Game
         case 40:
             player.move(0, MOVEMENT);
             break;
+        }
+        // Space and arrow keys, this prevents scrolling (default behaviour of some keys)
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) 
+        {
+            e.preventDefault();
         }
     }
 

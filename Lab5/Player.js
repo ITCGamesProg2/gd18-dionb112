@@ -15,7 +15,6 @@ class Player
         this.height = height;
         this.width = width;
         this.colour = colour;
-        this.boundDraw = this.draw.bind(this);
     }
     /**
     * function for our square class, clears canvas and draws the square
