@@ -8,7 +8,7 @@
 function main()
 {
     var game = new Game();
-    window.requestAnimationFrame(game.update());
+    game.update();
     document.addEventListener("keydown", clickHandler.bind(null, game));
 }
 

@@ -11,6 +11,9 @@ class Game
     {        
         this.ctx = {};
         this.initWorld();
+        this.boundRecursiveUpdate = this.update.bind(this);
+        this.boundDraw = this.draw.bind(this);
+
     }
     /**
      * See canvas as local var here but ctx as object of this class
@@ -27,17 +30,19 @@ class Game
         // append to HTML document
         document.body.appendChild(canvas);
         this.ctx.font = '42px arial';
-        window.alert('Initialising Game World');
+        console.log('Initialising Game World');
 
     }
     update()
     {
+        this.boundDraw();
+        console.log('game updating...');
         // recursion, currently maxing out call stack size *
-        window.requestAnimationFrame(this.update());
+        window.requestAnimationFrame(this.boundRecursiveUpdate());
     }
     draw()
     {
-        // to buffer
+        console.log('game drawing...');
     }
 
 }
