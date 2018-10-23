@@ -30,6 +30,7 @@ class Player
     * @param {Number} x ammount to move along x axis
     * @param {Number} y ammount to move along y axis
     */
+   // Nikki - This function could be simplified further
     move(x,y)
     {
         this.x += x;

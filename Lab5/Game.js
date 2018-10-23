@@ -1,6 +1,6 @@
 // Global var (no const in js)
-CANVAS_SIZE = 1000;
-MOVEMENT = 42;
+const CANVAS_SIZE = 1000;
+const MOVEMENT = 42;
 
 /**
  * Game class which controls instance of SceneManager,
@@ -13,7 +13,7 @@ class Game
     {        
         this.ctx = {};
         this.boundRecursiveUpdate = this.update.bind(this);
-        this.boundDraw = this.draw.bind(this);
+       // this.boundDraw = this.draw.bind(this);
         this.isGoalAlive = true;
     }
     /**
@@ -40,7 +40,7 @@ class Game
     }
     update()
     {
-        this.boundDraw();
+        this.draw();
         console.log('game updating...');
         if(this.player.checkCollision(this.goal))
         {
