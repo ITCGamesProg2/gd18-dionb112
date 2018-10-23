@@ -22,7 +22,8 @@ class Game
     initWorld()
     {
         console.log('Initialising Game World');
-        this.player = new Player(42,42,42,42, 255);
+        this.player = new Player(42, 42, 42, 42, 255);
+        this.goal = new Goal(420, 420, 42, 42);
         var canvas = document.createElement("canvas");
         canvas.id = 'mycanvas';
         canvas.width = CANVAS_SIZE;
@@ -39,13 +40,17 @@ class Game
     {
         this.boundDraw();
         console.log('game updating...');
+        this.player.checkCollision(this.goal);
         // recursion, currently maxing out call stack size *
         window.requestAnimationFrame(this.boundRecursiveUpdate);
     }
     draw()
     {
         console.log('game drawing...');
+        this.ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE);  
         this.player.draw(this.ctx);
+        this.goal.draw(this.ctx);
+
     }
     keyDownHandler(player, e)
     {

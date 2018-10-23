@@ -1,12 +1,12 @@
 class Player
 {
     /**
-    * Constructor function for Square 'class'
-    * @param {Number} x random x coord for starting position
-    * @param {Number} y random y coord for starting position
-    * @param {Number} width width to create square, 80
-    * @param {Number} height height to create square, 80
-    * @param {List} colour rgb values in the form of three ints
+    * Constructor function for Player 'class'
+    * @param {Number} x x coord for starting position
+    * @param {Number} y y coord for starting position
+    * @param {Number} width width to create square, 42
+    * @param {Number} height height to create square, 42
+    * @param {Number} colour rgb values in range 0 - 255
     */
     constructor(x, y, width, height, colour)
     {
@@ -22,7 +22,6 @@ class Player
     */
     draw(ctx)
     {
-        ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE);  
         ctx.fillStyle = this.colour;
         ctx.fillRect(this.x,this.y,this.width,this.height);
     }
@@ -35,5 +34,17 @@ class Player
     {
         this.x += x;
         this.y += y;
+    }
+    checkCollision(e)
+    {
+        var collides = false;
+        if ((this.x < e.x + e.width) &&
+            (this.x + this.width > e.x) &&
+            (this.y + this.height > e.y) &&
+            (this.y <e.y +e.height))
+        {
+            collides = true;
+        }
+        return collides;
     }
 }
