@@ -14,6 +14,7 @@ class Game
         this.ctx = {};
         this.boundRecursiveUpdate = this.update.bind(this);
         this.boundDraw = this.draw.bind(this);
+        this.isGoalAlive = true;
     }
     /**
      * See canvas as local var here but ctx as object of this class
@@ -40,7 +41,10 @@ class Game
     {
         this.boundDraw();
         console.log('game updating...');
-        this.player.checkCollision(this.goal);
+        if(this.player.checkCollision(this.goal))
+        {
+            this.collisionResponse();
+        }
         // recursion, currently maxing out call stack size *
         window.requestAnimationFrame(this.boundRecursiveUpdate);
     }
@@ -49,8 +53,14 @@ class Game
         console.log('game drawing...');
         this.ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE);  
         this.player.draw(this.ctx);
-        this.goal.draw(this.ctx);
-
+        if (this.isGoalAlive)
+        {
+            this.goal.draw(this.ctx);
+        }
+        else
+        {
+            this.levelComplete();
+        }
     }
     keyDownHandler(player, e)
     {
@@ -75,5 +85,17 @@ class Game
             e.preventDefault();
         }
     }
-
+    collisionResponse()
+    {
+        this.isGoalAlive = false;
+    }
+    levelComplete()
+    {
+        this.ctx.save();
+        this.ctx.fillStyle='GREEN';
+        this.ctx.font = 'bold 42pt Arial';
+        this.ctx.textBaseline = "top";
+        this.ctx.fillText("Level COMPLETE!", 250, 420);
+        this.ctx.restore();
+    }
 }

@@ -45,7 +45,6 @@ class Player
         {
             collides = true;
             console.log('collision');
-
         }
         return collides;
     }
