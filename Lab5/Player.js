@@ -44,6 +44,8 @@ class Player
             (this.y <e.y +e.height))
         {
             collides = true;
+            console.log('collision');
+
         }
         return collides;
     }
