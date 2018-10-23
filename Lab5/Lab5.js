@@ -4,7 +4,7 @@
  * add collision detection
  * add collision response
  */
-
+// Nikki - Overall good
 function main()
 {
     var game = new Game();

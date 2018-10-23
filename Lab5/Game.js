@@ -20,6 +20,7 @@ class Game
      * See canvas as local var here but ctx as object of this class
      * to use elsewhere
      */
+    // Nikki - Should create canvas in constructor 
     initWorld()
     {
         console.log('Initialising Game World');
@@ -89,6 +90,7 @@ class Game
     {
         this.isGoalAlive = false;
     }
+    // Using stack here to push and pop canvas stylings
     levelComplete()
     {
         this.ctx.save();
