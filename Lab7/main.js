@@ -5,6 +5,7 @@ const CANVAS_SIZE = 1000;
  * use device sim
  * then more advanced touch events
  */
+// Patryk, it's good but you could have made this with greatly simplified code
 function main()
 {
     this.ongoingTouches = [];
