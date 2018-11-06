@@ -15,6 +15,8 @@ function main()
     this.time1 = 0;
     this.swipeStartX = 0;
     this.swipeStartY = 0;
+    this.swipeMoveX = 0;
+    this.swipeMoveY = 0;
     this.ctx = {};   
     var canvas = document.createElement("canvas");
 
