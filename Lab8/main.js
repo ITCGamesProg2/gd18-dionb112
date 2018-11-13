@@ -5,6 +5,7 @@
  * for multiple images simply implement answer 2 (~24 points) here:
  * https://stackoverflow.com/questions/3032299/checking-for-multiple-images-loaded
  */
+// Reveied by Jack Fennell - Could use more comments
 function main()
 {
     var game = new Game();
