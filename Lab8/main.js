@@ -1,4 +1,3 @@
-const CANVAS_SIZE = 1600;
 /**
  * @author Dion Buckley
  * Lab to Draw and Animate a sprite
