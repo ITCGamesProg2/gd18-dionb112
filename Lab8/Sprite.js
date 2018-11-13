@@ -11,7 +11,7 @@
  */
 class Sprite 
 {
-    constructor(context, imageOptions)
+    constructor(context, imageOptions, fps, x, y)
     {
        this.width = imageOptions.width;
        this.height = imageOptions.height;
@@ -19,11 +19,16 @@ class Sprite
        this.ctx = context;
        this.frameIndex = 0;
        this.tickCount = 0;
-       this.ticksPerFrame = 1000 / 60;
+       this.ticksPerFrame = 420 / fps;
        this.numberOfFrames = 6 || 1; 
+       this.x = x;
+       this.y = y;
    }
-   update()
+   update(dt)
    {
+       // what to do with dt now ?
+       var dt = dt;
+
        this.tickCount++;
        if (this.tickCount > this.ticksPerFrame)
        {
@@ -42,12 +47,12 @@ class Sprite
    {
        this.ctx.drawImage(
            this.image,
-           this.frameIndex * this.width ,
+           this.frameIndex * this.width,
            0,
            this.width ,
            this.height,
-           0,
-           0,
+           this.x,
+           this.y,
            this.width ,
            this.height);
    }

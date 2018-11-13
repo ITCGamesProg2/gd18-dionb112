@@ -8,10 +8,10 @@ class Game
     constructor() 
     {    
         // this.isLoaded = false;
+        this.previousTime = 0;
         this.spriteStrip =  new Image();
         this.ctx = {};
         this.boundRecursiveUpdate = this.update.bind(this);
-        this.boundDraw = this.draw.bind(this);
     }
     initWorld()
     {
@@ -29,17 +29,31 @@ class Game
         // source for sprite strip
         this.spriteStrip.src = 'spritestrip.png';
         // create sprite
-        this.sprite = new Sprite(this.ctx, {
+        this.sprite1 = new Sprite(this.ctx, {
             width: SPRITE_FRAME,
             height: SPRITE_FRAME,
-            image: this.spriteStrip  
-        });
+            image: this.spriteStrip},
+            60,
+            0,
+            0);
+        this.sprite2 = new Sprite(this.ctx, {
+            width: SPRITE_FRAME,
+            height: SPRITE_FRAME,
+            image: this.spriteStrip},
+            180,
+            0,
+            300);     
     }
     update()
     {
+        var now = Date.now();
+        var deltaTime = (now - this.previousTime);
+        this.previousTime = now;
+        this.sprite1.update(deltaTime);
+        this.sprite2.update(deltaTime);
+        this.draw();
         window.requestAnimationFrame(this.boundRecursiveUpdate);
-        this.sprite.update();
-        this.boundDraw();
+
     }
     draw()
     {
@@ -48,6 +62,8 @@ class Game
         {
             this.ctx.drawImage(this.spriteStrip, 42, 42);
         } */
-        this.sprite.render();
+        this.sprite1.render();
+        this.sprite2.render();
+
     }
 }
