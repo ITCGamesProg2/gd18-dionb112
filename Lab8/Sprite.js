@@ -23,12 +23,13 @@ class Sprite
        this.numberOfFrames = 6 || 1; 
        this.x = x;
        this.y = y;
+       this.accumdt = 0;
    }
    update(dt)
    {
        // what to do with dt now ?
        var dt = dt;
-
+       //this.accumdt += dt;
        this.tickCount++;
        if (this.tickCount > this.ticksPerFrame)
        {

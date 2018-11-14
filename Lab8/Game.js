@@ -1,5 +1,6 @@
 const CANVAS_SIZE = 1600;
 const SPRITE_FRAME = 256;
+const FPS = 60;
 /**
  * Game class with loop for animation
  */
@@ -7,7 +8,7 @@ class Game
 {
     constructor() 
     {    
-        // this.isLoaded = false;
+        this.isLoaded = false;
         this.previousTime = 0;
         this.spriteStrip =  new Image();
         this.ctx = {};
@@ -15,9 +16,10 @@ class Game
     }
     initWorld()
     {
-        /** this.spriteStrip.addEventListener('load', function() {
-            this.isLoaded = true;
-        }, false); */
+        var that = this;
+         this.spriteStrip.addEventListener('load', function() {
+            that.isLoaded = true;
+        }, false); 
         var canvas = document.createElement("canvas");
         canvas.id = 'mycanvas';
         canvas.width = CANVAS_SIZE;
@@ -33,14 +35,14 @@ class Game
             width: SPRITE_FRAME,
             height: SPRITE_FRAME,
             image: this.spriteStrip},
-            60,
+            FPS,
             0,
             0);
         this.sprite2 = new Sprite(this.ctx, {
             width: SPRITE_FRAME,
             height: SPRITE_FRAME,
             image: this.spriteStrip},
-            180,
+            FPS * 2,
             0,
             300);     
     }
@@ -58,10 +60,10 @@ class Game
     draw()
     {
         this.ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE); 
-        /** if (this.isLoaded)
+         if (this.isLoaded)
         {
-            this.ctx.drawImage(this.spriteStrip, 42, 42);
-        } */
+            //this.ctx.drawImage(this.spriteStrip, 42, 42);
+        } 
         this.sprite1.render();
         this.sprite2.render();
 
