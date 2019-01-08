@@ -11,7 +11,6 @@ const CANVAS_SIZE = 1000;
 // chose to simplify certain elements from that page in my own implementation
 function main()
 {
-    this.ongoingTouches = [];
     this.time1 = 0;
     this.swipeStartX = 0;
     this.swipeStartY = 0;

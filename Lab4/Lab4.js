@@ -14,6 +14,7 @@ function main()
  */
 function clickHandler(game, e)
 {
+    
     game.sceneManager.goToNextScene();
     game.sceneManager.render(game.ctx);
 }

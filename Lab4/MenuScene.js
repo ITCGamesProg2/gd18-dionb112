@@ -6,6 +6,7 @@ class MenuScene extends Scene
     }
     render(ctx)
     {
+        
         ctx.font = '33px sans-serif';
         super.render(ctx)
     }
