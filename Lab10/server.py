@@ -7,15 +7,14 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def check_origin(self, origin):
         return True
     def open(self):
-	    print("player connected")
 	    self.write_message("connection opened")
     def on_message(self, message):
 	    self.write_message("You said: " + message)
     def on_close(self):
-        print("player disconnected")
-    
+        self.write_message("connection closed")
+
 app = tornado.web.Application([
-    #mapping handler to URL and name it test
+    #mapping handler to URI and name it test
     (r'/wstest', WSHandler),
 ])
 
