@@ -6,8 +6,6 @@ import tornado
 session = {}
 
 class WSHandler(tornado.websocket.WebSocketHandler):
-    def send_to_other_player:
-        pass
     def check_origin(self, origin):
         return True
     def open(self):
@@ -18,6 +16,9 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print(session)
     def on_message(self, message):
         self.write_message("You said: " + message)
+    def send_to_other_player(self, message):
+            if session[player_address] == self:
+                self.write_message('this working?')
     def on_close(self):
         pass
 app = tornado.web.Application([
