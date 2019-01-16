@@ -9,7 +9,7 @@ function main()
     var ws = new WebSocket("ws://localhost:8080/wstest");
     // called upon websocket opening
     ws.onopen = function() {
-        ws.send("Hello Buddy")
+        ws.send("send_to_other_player")
     };
     // called when client recieves message
     ws.onmessage = function(e)
