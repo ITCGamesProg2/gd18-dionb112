@@ -6,10 +6,14 @@
  */
 function main()
 {
+    var message = {};
+    message.type = "test"
+    message.data = "hello"
     var ws = new WebSocket("ws://localhost:8080/wstest");
     // called upon websocket opening
     ws.onopen = function() {
         ws.send("send_to_other_player")
+        console.log(JSON.stringify(message))
     };
     // called when client recieves message
     ws.onmessage = function(e)
@@ -24,7 +28,6 @@ function main()
  */
 function clickHandler(game, e)
 {
-    
     game.sceneManager.goToNextScene();
     game.sceneManager.render(game.ctx);
 }
