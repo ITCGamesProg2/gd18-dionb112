@@ -1,5 +1,5 @@
 # coding: utf-8
-
+#localhost won't work on phone as it is specific to the PC
 from tornado import websocket, web, ioloop, httpserver
 import tornado
 
@@ -31,7 +31,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def on_close(self):
         pass
-        
+
 app = tornado.web.Application([
     #mapping handler to URI and name it test
     (r'/wstest', WSHandler),
