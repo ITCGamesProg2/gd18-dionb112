@@ -13,7 +13,7 @@ function main()
     // called upon websocket opening
     ws.onopen = function() {
         ws.send("send_to_other_player")
-        console.log(JSON.stringify(message))
+        //ws.send(JSON.stringify(message))
     };
     // called when client recieves message
     ws.onmessage = function(e)

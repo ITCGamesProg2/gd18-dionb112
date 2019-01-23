@@ -14,15 +14,21 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         print("connection opened")
         print(player_address)
         session[player_address] = self
-        print(session)
-
+        print(len(session))
+    
+    # an alternate way to get the ip and port for each player
+    # this is preferable as socket data from self becomes lost when closing
+    # not allowing us to remove that player from session
     def get_player_address(self):
-        return (self.request.remote_ip + ":" + str(self.stream.socket.getpeername()[1]))
+        address = self.request.connection.context.address
+        ip = address[0]
+        port = str(address[1])
+        return (ip + ":" + port)
 
     def on_message(self, message):
         if (message == "send_to_other_player"):
             if (len(session) > 1):
-                self.send_to_other_player("Hi")
+                self.send_to_other_player("Player " + str(len(session)) + " has joined")
 
     def send_to_other_player(self, message):
         for key, value in session.items():
@@ -30,7 +36,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
                 value.write_message(message)
 
     def on_close(self):
-        pass
+        del session[self.get_player_address()]
 
 app = tornado.web.Application([
     #mapping handler to URI and name it test
