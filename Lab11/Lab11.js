@@ -13,12 +13,20 @@ function main()
     // called upon websocket opening
     ws.onopen = function() {
         ws.send("send_to_other_player")
-        //ws.send(JSON.stringify(message))
+        ws.send(JSON.stringify(message))
     };
     // called when client recieves message
     ws.onmessage = function(e)
     {
-        alert(e.data);
+        if (e.data == JSON.stringify(message))
+        {
+            var msg = JSON.parse(e.data)
+            console.log(msg)
+        }
+        else
+        {
+            alert(e.data);
+        }
     };
     var game = new Game();
     document.addEventListener("click", clickHandler.bind(null, game));

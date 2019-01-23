@@ -29,6 +29,9 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         if (message == "send_to_other_player"):
             if (len(session) > 1):
                 self.send_to_other_player("Player " + str(len(session)) + " has joined")
+        else:
+            if (len(session) > 1):
+                self.send_to_other_player(message)
 
     def send_to_other_player(self, message):
         for key, value in session.items():
