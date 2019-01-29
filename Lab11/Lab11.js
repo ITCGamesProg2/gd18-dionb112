@@ -6,6 +6,9 @@
  */
 function main()
 {
+    var state = {};
+    state.type = "updateState"
+    state.data = ""
     var message = {};
     message.type = "test"
     message.data = "hello"
@@ -20,8 +23,8 @@ function main()
     {
         if (e.data == JSON.stringify(message))
         {
-            var msg = JSON.parse(e.data)
-            console.log(msg)
+            var obj = JSON.parse(e.data)
+            console.log(obj)
         }
         else
         {
