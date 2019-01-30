@@ -13,14 +13,25 @@ function main()
     // called upon websocket opening
     var that = this;
     this.ws.onopen = function() {
+        that.ws.send("send_to_other_player")
+        that.ws.send(JSON.stringify(message))
     };
     // called when client recieves message
     this.ws.onmessage = function(e)
     {
-        var msg = JSON.parse(e.data)
-        if (msg.type == "updateState")
+        var msg = JSON.parse(e)
+        if (e.data === JSON.stringify(message))
         {
-            updateLocalState(msg)
+            var obj = JSON.parse(e.data)
+            console.log(obj)
+        }
+        else if (msg.type == "updateState")
+        {
+            this.updateLocalState(e)
+        }
+        else
+        {
+            alert(e.data);
         }
     };
     var game = new Game();
@@ -39,14 +50,12 @@ function updateState(e)
 {
     var state = {};
     state.type = "updateState"
-    state.data = {x: e.offsetX, y: e.offsetY};
+    state.data = "x: " + e.offsetX + ", y: " + e.offsetY
     if(this.ws.readyState === this.ws.OPEN){
-       
         this.ws.send(JSON.stringify(state))
     }
 }
-function updateLocalState(msg)
+function updateLocalState(e)
 {
-  
-    console.log(msg.data)
+    console.log(e.data)
 }
