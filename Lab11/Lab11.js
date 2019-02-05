@@ -41,12 +41,10 @@ function updateState(e)
     state.type = "updateState"
     state.data = {x: e.offsetX, y: e.offsetY};
     if(this.ws.readyState === this.ws.OPEN){
-       
         this.ws.send(JSON.stringify(state))
     }
 }
 function updateLocalState(msg)
 {
-  
     console.log(msg.data)
 }
