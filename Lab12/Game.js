@@ -47,10 +47,7 @@ class Game
         this.ws.onmessage = function(e)
         {
             var msg = JSON.parse(e.data)
-            if (msg.type == "updateState")
-            {
-                this.updateLocalState(msg)
-            }
+            console.log(msg)
         };
 
         var joinButton = document.getElementById("join");

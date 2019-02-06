@@ -5,17 +5,38 @@ import tornado
 import json
 
 session = {}
+WAITING_FOR_PLAYERS = 'WAITING_FOR_PLAYERS'
+GAME_IN_PROGRESS = 'GAME_IN_PROGRESS'
+game_state = WAITING_FOR_PLAYERS
 
 class WSHandler(tornado.websocket.WebSocketHandler):
+
+    def format_message(self, type, data):
+        new_msg = {type: data}
+        new_msg = json.dumps(new_msg)
+        return new_msg
+
+    def join(self):
+        global game_state
+        if (len(session) < 2):
+            player_address = self.get_player_address()
+            print("connection opened")
+            print(player_address)
+            session[player_address] = self
+            print(len(session))
+            if (len(session) == 2):
+                game_state = GAME_IN_PROGRESS
+            else:
+                game_state = WAITING_FOR_PLAYERS
+            return True
+        else:
+            return False
+
     def check_origin(self, origin):
         return True
 
     def open(self):
-        player_address = self.get_player_address()
-        print("connection opened")
-        print(player_address)
-        session[player_address] = self
-        print(len(session))
+       pass
     
     # an alternate way to get the ip and port for each player
     # this is preferable as socket data from self becomes lost when closing
@@ -27,18 +48,23 @@ class WSHandler(tornado.websocket.WebSocketHandler):
         return (ip + ":" + port)
 
     def on_message(self, message):
-        if (len(session) > 1):
-            msg = json.loads(message)                   
-            if (msg['type'] == 'updateState'):
-                self.send_to_other_player(message)
-
+        msg = json.loads(message) 
+        if (msg['type'] == 'join'):
+            if (self.join()):
+                state = self.format_message('state', game_state)
+                self.write_message(state)
+            else:
+                state = self.format_message('error', 'No available space: Two players already in the game!')
+                self.write_message(state)
     def send_to_other_player(self, message):
         for key, value in session.items():
             if (key != self.get_player_address()):
                 value.write_message(message)
 
     def on_close(self):
-        del session[self.get_player_address()]
+        for key in session.items():
+            if (key == self.get_player_address()):
+                del session[key]
 
 app = tornado.web.Application([
     #mapping handler to URI and name it test
