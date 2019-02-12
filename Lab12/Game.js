@@ -43,20 +43,7 @@ class Game
         // called upon websocket opening
         this.ws.onopen = function() {
         };
-        // called when client recieves message
-        this.ws.onmessage = function(e)
-        {
-            var msg = JSON.parse(e.data)
-            if (msg.type == "updateState")
-            {
-                updateLocalState(msg)
-            }
-            else{
-                // for now the game state messages like this
-                console.log(msg)
-            }
-        };
-
+        this.ws.addEventListener('message', this.handleMessage.bind(null, this));
         var joinButton = document.getElementById("join");
         joinButton.addEventListener("click", this.join.bind(null, this));
     }
@@ -74,6 +61,17 @@ class Game
 
         document.body.appendChild(canvas);
         document.addEventListener("click", this.clickHandler.bind(null, this));
+    }
+    handleMessage(game, evt)
+    {
+        var msg = JSON.parse(evt.data)
+        if (msg.type == "updateState"){
+            game.updateLocalState(msg)
+        }
+        else{
+            // for now the game state messages like this
+            console.log(msg)
+        }
     }
     /** function called to handle clicks,
      *  goes to next scene and renders it
