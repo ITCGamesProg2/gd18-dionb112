@@ -47,7 +47,14 @@ class Game
         this.ws.onmessage = function(e)
         {
             var msg = JSON.parse(e.data)
-            console.log(msg)
+            if (msg.type == "updateState")
+            {
+                updateLocalState(msg)
+            }
+            else{
+                // for now the game state messages like this
+                console.log(msg)
+            }
         };
 
         var joinButton = document.getElementById("join");
@@ -66,5 +73,26 @@ class Game
         this.ctx.font = '48px arial';
 
         document.body.appendChild(canvas);
+        document.addEventListener("click", this.clickHandler.bind(null, this));
+    }
+    /** function called to handle clicks,
+     *  goes to next scene and renders it
+    */
+    clickHandler(game, e)
+    {
+        game.updateState(e);
+    }
+    updateState(e)
+    {
+        var state = {};
+        state.type = "updateState"
+        state.data = {x: e.offsetX, y: e.offsetY};
+        if(this.ws.readyState === this.ws.OPEN){
+            this.ws.send(JSON.stringify(state))
+        }
+    }
+    updateLocalState(msg)
+    {
+        console.log(msg.data)
     }
 }

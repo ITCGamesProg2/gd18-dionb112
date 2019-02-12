@@ -11,8 +11,10 @@ game_state = WAITING_FOR_PLAYERS
 
 class WSHandler(tornado.websocket.WebSocketHandler):
 
-    def format_message(self, type, data):
-        new_msg = {type: data}
+    def format_message(self, type, data):        
+        new_msg = {}
+        new_msg["type"] = type
+        new_msg["data"] = data
         new_msg = json.dumps(new_msg)
         return new_msg
 
@@ -62,9 +64,11 @@ class WSHandler(tornado.websocket.WebSocketHandler):
                 value.write_message(message)
 
     def on_close(self):
-        for key in session.items():
+        delete = {}
+        for key in session.keys():
             if (key == self.get_player_address()):
-                del session[key]
+                delete = key
+        del session[delete]
 
 app = tornado.web.Application([
     #mapping handler to URI and name it test
