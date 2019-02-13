@@ -25,27 +25,45 @@ class Game
         ctx.fillStyle = 'BLACK';
         ctx.fillText(this.title, 7, 42);
     }
-    join(game)
-    {
-        console.log("at join")
+    checkReady(){
+        if(game.ws.readyState === game.ws.OPEN){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    join(game){
         var message = {};
         message.type = "join"
-        if(game.ws.readyState === game.ws.OPEN)
-        {
+
+        if (game.checkReady){
             game.ws.send(JSON.stringify(message))
         }
     }
-    initWorld()
-    {
+    gameOver(game){
+        var message = {};
+        message.type = 'gameOver'
+
+        if (game.checkReady){
+            game.ws.send(JSON.stringify(message))
+        }
+    }
+    initWorld(){
         var that = this;
 
         this.ws = new WebSocket("ws://localhost:8080/wstest");
+
         // called upon websocket opening
         this.ws.onopen = function() {
         };
         this.ws.addEventListener('message', this.handleMessage.bind(null, this));
+
         var joinButton = document.getElementById("join");
         joinButton.addEventListener("click", this.join.bind(null, this));
+
+        var gameOverButton = document.getElementById("gameOver");
+        gameOverButton.addEventListener("click", this.gameOver.bind(null, this));
     }
     initCanvas()
     {
@@ -85,7 +103,7 @@ class Game
         var state = {};
         state.type = "updateState"
         state.data = {x: e.offsetX, y: e.offsetY};
-        if(this.ws.readyState === this.ws.OPEN){
+        if (this.checkReady){
             this.ws.send(JSON.stringify(state))
         }
     }

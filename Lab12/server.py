@@ -26,13 +26,13 @@ class WSHandler(tornado.websocket.WebSocketHandler):
 
     def join(self):
         global game_state
-        if (len(session) < 2):
+        if len(session) < 2:
             player_address = self.get_player_address()
             print("connection opened")
             print(player_address)
             session[player_address] = self
             print(len(session))
-            if (len(session) == 2):
+            if len(session) == 2:
                 game_state = GAME_IN_PROGRESS
             else:
                 game_state = WAITING_FOR_PLAYERS
@@ -62,18 +62,30 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def on_message(self, message):
         global game_state
         msg = json.loads(message) 
-        if (msg['type'] == 'join'):
-            if (self.join()):
+        if msg['type'] == 'join':
+            if self.join():
                 state = self.format_message('state', game_state)
                 self.write_message(state)
             else:
                 state = self.format_message('error', 'No available space: Two players already in the game!')
                 self.write_message(state)
-        elif (msg['type'] == 'updateState'):
-            if (game_state == GAME_IN_PROGRESS):
+        elif msg['type'] == 'updateState':
+            if game_state == GAME_IN_PROGRESS:
                 for key in session.keys():
                     if (key == self.get_player_address()):
                         self.send_to_other_player(message)
+        elif msg['type'] == 'gameOver':
+            clear = False
+            for key in session.keys():
+                if key == self.get_player_address():
+                    self.write_message(message)
+                    self.send_to_other_player(message)
+                    game_state = WAITING_FOR_PLAYERS
+                    clear = True
+            if clear:
+                    session.clear()
+                    print("all connections closed")
+                    print(len(session))
 
 
     def send_to_other_player(self, message):
@@ -85,11 +97,11 @@ class WSHandler(tornado.websocket.WebSocketHandler):
     def on_close(self):
         delete = ''
         for key in session.keys():
-            if (key == self.get_player_address()):
+            if key == self.get_player_address():
                 delete = key
                 print("connection closed")
                 print(key)
-        if (delete != ''):
+        if delete != '':
             del session[delete]
             print(len(session))
 
