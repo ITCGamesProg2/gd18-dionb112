@@ -66,6 +66,7 @@ class WSHandler(tornado.websocket.WebSocketHandler):
             if self.join():
                 state = self.format_message('state', game_state)
                 self.write_message(state)
+                self.send_to_other_player(state)
             else:
                 state = self.format_message('error', 'No available space: Two players already in the game!')
                 self.write_message(state)

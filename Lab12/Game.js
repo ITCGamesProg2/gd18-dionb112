@@ -14,7 +14,8 @@ class Game
         this.ctx = {};
         this.initCanvas();
         this.boundRecursiveUpdate = this.update.bind(this);
-		this.isGameOver = false;
+        this.isGameOver = false;
+        this.gameStarted = false;
     }
     update()
     {
@@ -30,7 +31,7 @@ class Game
         ctx.fillText(this.title, 7, 42);
     }
     checkReady(){
-        if(game.ws.readyState === game.ws.OPEN){
+        if(this.ws.readyState === this.ws.OPEN){
             return true;
         }
         else{
@@ -41,21 +42,21 @@ class Game
         var message = {};
         message.type = "join"
 
-        if (game.checkReady){
+        if (game.checkReady()){
             game.ws.send(JSON.stringify(message))
         }
     }
     gameOver(game){
         var message = {};
         message.type = 'gameOver'
-
-        if (game.checkReady){
+        game.gameStarted = false;
+        if (game.checkReady()){
             game.ws.send(JSON.stringify(message))
         }
     }
     initWorld(){
-        this.playerOne = new Player(42, 42, 42, 42, 255);
-        this.playerTwo = new Player(420, 420, 42, 42, 0);
+        this.player = new Player(50,  50, 42, 42, 255);
+        this.otherPlayer = new Player(100, 100, 42, 42, 0);
 
         var that = this;
 
@@ -72,8 +73,7 @@ class Game
         var gameOverButton = document.getElementById("gameOver");
         gameOverButton.addEventListener("click", this.gameOver.bind(null, this));
         
-		document.addEventListener("keydown", this.keyDownHandler.bind(null, this.playerOne));
-		document.addEventListener("keydown", this.keyDownHandler.bind(null, this.playerTwo));
+		document.addEventListener("keydown", this.keyDownHandler.bind(null, this.player));
 }
     initCanvas()
     {
@@ -88,48 +88,54 @@ class Game
         this.ctx.font = '48px arial';
 
         document.body.appendChild(canvas);
-        document.addEventListener("click", this.clickHandler.bind(null, this));
     }
     handleMessage(game, evt)
     {
         var msg = JSON.parse(evt.data)
         if (msg.type == "updateState"){
-            game.updateFromNet(msg)
-        }
+                game.updateFromNet(msg.data)
+            }
         else{
             // for now the game state messages like this
             console.log(msg)
         }
-    }
-    /** function called to handle clicks,
-     *  goes to next scene and renders it
-    */
-    clickHandler(game, e)
-    {
-        game.updateState(e);
+        if (!game.gameStarted)
+        {
+            if (msg.data == "GAME_IN_PROGRESS"){
+                
+                game.gameStarted = true;
+            }
+        }
+        
+
     }
 	update()
     {
         this.draw();
 		if (!this.isGameOver){
-			if(this.playerOne.checkCollision(this.playerTwo))
+			if(this.player.checkCollision(this.otherPlayer))
 			{
 				this.collisionResponse();
 			}
 			// recursion, currently maxing out call stack size *
             window.requestAnimationFrame(this.boundRecursiveUpdate);
-            this.updateState();
+            if (this.checkReady()){
+                if (this.gameStarted){
+                    this.updateState(this.player.x, this.player.y);
+                }
+            }
 		}
     }
-    updateFromNet(x, y)
+    updateFromNet(data)
     {
-
+        this.otherPlayer.x = data.x;
+        this.otherPlayer.y = data.y;
     }
     draw()
     {
         this.ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE);  
-        this.playerOne.draw(this.ctx);
-        this.playerTwo.draw(this.ctx);
+        this.player.draw(this.ctx);
+        this.otherPlayer.draw(this.ctx);
         if (this.isGameOver)
         {
             this.levelComplete();
@@ -172,12 +178,12 @@ class Game
         this.ctx.fillText("Level COMPLETE!", 250, 420);
         this.ctx.restore();
     }
-    updateState(e)
+    updateState(xCoord, yCoord)
     {
         var state = {};
         state.type = "updateState"
-        state.data = {x: e.offsetX, y: e.offsetY};
-        if (this.checkReady){
+        state.data = {x: xCoord, y: yCoord};
+        if (this.checkReady()){
             this.ws.send(JSON.stringify(state))
         }
     }
