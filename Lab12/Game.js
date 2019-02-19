@@ -1,5 +1,7 @@
-// Global var (no const in js)
-CANVAS_SIZE = 1000;
+// Global var 
+const CANVAS_SIZE = 1000;
+const MOVEMENT = 42;
+
 /**
  * Game class which controls instance of SceneManager,
  * adding in all scene objects and rendering first scene
@@ -11,6 +13,8 @@ class Game
     {       
         this.ctx = {};
         this.initCanvas();
+        this.boundRecursiveUpdate = this.update.bind(this);
+		this.isGameOver = false;
     }
     update()
     {
@@ -50,6 +54,9 @@ class Game
         }
     }
     initWorld(){
+        this.playerOne = new Player(42, 42, 42, 42, 255);
+        this.playerTwo = new Player(420, 420, 42, 42, 0);
+
         var that = this;
 
         this.ws = new WebSocket("ws://localhost:8080/wstest");
@@ -64,7 +71,10 @@ class Game
 
         var gameOverButton = document.getElementById("gameOver");
         gameOverButton.addEventListener("click", this.gameOver.bind(null, this));
-    }
+        
+		document.addEventListener("keydown", this.keyDownHandler.bind(null, this.playerOne));
+		document.addEventListener("keydown", this.keyDownHandler.bind(null, this.playerTwo));
+}
     initCanvas()
     {
         var canvas = document.createElement("canvas");
@@ -84,7 +94,7 @@ class Game
     {
         var msg = JSON.parse(evt.data)
         if (msg.type == "updateState"){
-            game.updateLocalState(msg)
+            game.updateFromNet(msg)
         }
         else{
             // for now the game state messages like this
@@ -97,6 +107,70 @@ class Game
     clickHandler(game, e)
     {
         game.updateState(e);
+    }
+	update()
+    {
+        this.draw();
+		if (!this.isGameOver){
+			if(this.playerOne.checkCollision(this.playerTwo))
+			{
+				this.collisionResponse();
+			}
+			// recursion, currently maxing out call stack size *
+            window.requestAnimationFrame(this.boundRecursiveUpdate);
+            this.updateState();
+		}
+    }
+    updateFromNet(x, y)
+    {
+
+    }
+    draw()
+    {
+        this.ctx.clearRect(0,0,CANVAS_SIZE, CANVAS_SIZE);  
+        this.playerOne.draw(this.ctx);
+        this.playerTwo.draw(this.ctx);
+        if (this.isGameOver)
+        {
+            this.levelComplete();
+        }
+    }
+	keyDownHandler(player, e)
+    {
+        switch (e.keyCode)
+        {
+        case 38:
+            player.move(0,-MOVEMENT);
+            break;
+        case 37:
+            player.move(-MOVEMENT, 0);
+            break;
+        case 39:
+            player.move(MOVEMENT, 0);
+            break;
+        case 40:
+            player.move(0, MOVEMENT);
+            break;
+        }
+        // Space and arrow keys, this prevents scrolling (default behaviour of some keys)
+        if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) 
+        {
+            e.preventDefault();
+        }
+    }
+    collisionResponse()
+    {
+        this.isGameOver = true;
+    }
+    // Using stack here to push and pop canvas stylings
+    levelComplete()
+    {
+        this.ctx.save();
+        this.ctx.fillStyle='GREEN';
+        this.ctx.font = 'bold 42pt Arial';
+        this.ctx.textBaseline = "top";
+        this.ctx.fillText("Level COMPLETE!", 250, 420);
+        this.ctx.restore();
     }
     updateState(e)
     {
